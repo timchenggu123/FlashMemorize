@@ -13,7 +13,7 @@ from tkinter.filedialog import askopenfilename
 # initalize global variables
 nm = 0 #holds the number of card
 currentside = 0 #holds the current state of each card. 
-
+counter = 0
 #Prompt user to select source file & extract lines from source file
 tk.Tk().withdraw()  
 filename = askopenfilename()
@@ -62,21 +62,23 @@ def Disp(n,currentside = []):
     T1.insert(tk.END, card(n))
 
 def nextcard():
-    global nm, n
+    global nm, n, counter
     nm = nm + 1
     if nm == ncards:
         nm = 1
     n = deck[nm]
     Disp(n)
+    counter = counter + 1
+    stat()
     return
 
 def previouscard():
     global nm,n
-    nm = nm -1
-    if nm ==0:
-        nm = ncards
+    nm = nm - 1
     n = deck[nm]
-    Disp[n]
+    if nm ==0:
+        nm = ncards - 1
+    Disp(n)
     
 def flip():
     global currentside
@@ -85,6 +87,11 @@ def flip():
     T1.insert(tk.END, card(n,currentside))
     return
 
+def stat():
+    msg = "Stat: " + str(counter)
+    T2.delete(1.0,tk.END)
+    T2.insert(tk.END,msg)
+    
 #Constructing Gui
 top = tk.Tk()
 
@@ -107,6 +114,8 @@ btn4.pack(side=tk.LEFT)
 fm1 = tk.Frame(top)
 fm1.pack(side = tk.LEFT)
 T2 = tk.Text(fm1,height = 1, width = 12)
-T2.insert(tk.END,'STAT:')
+T2.pack(side = tk.LEFT)
+msg = "Stat: " + str(counter)
+T2.insert(tk.END,msg)
 
 top.mainloop()
