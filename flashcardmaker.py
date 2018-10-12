@@ -14,6 +14,7 @@ from tkinter.filedialog import askopenfilename
 nm = 0 #holds the number of card
 currentside = 0 #holds the current state of each card. 
 counter = 0
+
 #Prompt user to select source file & extract lines from source file
 tk.Tk().withdraw()  
 filename = askopenfilename()
@@ -21,10 +22,10 @@ file = open(filename, 'r')
 lines = file.readlines() 
 
 #Initializing deck
+ncards = len(lines)
+deck = list(range(ncards))
 def shuffledeck():
     global deck
-    ncards = len(lines)
-    deck = list(range(ncards))
     #rdnm = 999
     #for i in lines:
     #    temp = rdnm
