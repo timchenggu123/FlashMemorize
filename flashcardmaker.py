@@ -13,17 +13,33 @@ from tkinter.filedialog import askopenfilename
 # initalize global variables
 nm = 0 #holds the number of card
 currentside = 0 #holds the current state of each card. 
-counter = 0
+counter = 1
 
 #Prompt user to select source file & extract lines from source file
 tk.Tk().withdraw()  
 filename = askopenfilename()
 file = open(filename, 'r')
 lines = file.readlines() 
+# %%  Object Experiment
+#class card:
+#    
+#    def __init__(self,front,back,ID):
+#        self.front = front
+#        self.back = back
+#        self.side = []
+#        self.stats = []
+#        self.state = 0
+#        self.id = ID
+#    
+#    def rndm():
+#        return rd.randint(1,8)
+#        
 
+#%% 
 #Initializing deck
 ncards = len(lines)
 deck = list(range(ncards))
+status = [1] * ncards
 def shuffledeck():
     global deck
     #rdnm = 999
@@ -40,8 +56,8 @@ def shuffledeck():
     currentside = 0
     
 shuffledeck()
-n = deck[nm]
-
+n = deck[nm] #n is the index of the card follwoing the order in the source file
+sideLabel = ["<front>","<back>"]
 #Constructing functions
 def card(n,side = rd.randrange(0,2)):
     global currentside
@@ -58,19 +74,21 @@ def card(n,side = rd.randrange(0,2)):
     else:
         return back
 
-def Disp(n,currentside = []):
+def Disp(n,side = []):
     T1.delete(1.0,tk.END)
-    T1.insert(tk.END, card(n))
+    
+    msg = card(n)
+    T1.insert(tk.END, msg)
 
 def nextcard():
-    global nm, n, counter
+    global nm, n
     nm = nm + 1
     if nm == ncards:
         nm = 1
     n = deck[nm]
+
     Disp(n)
-    counter = counter + 1
-    stat()
+    dispstat()
     return
 
 def previouscard():
@@ -88,8 +106,13 @@ def flip():
     T1.insert(tk.END, card(n,currentside))
     return
 
-def stat():
-    msg = "Stat: " + str(counter)
+def dispstat():
+    global counter,status
+    if status[nm]:
+        status[nm] = 0
+        counter = counter + 1
+        dispstat()
+    msg = "Stat: " + str(counter) + "/" + str(ncards)
     T2.delete(1.0,tk.END)
     T2.insert(tk.END,msg)
     
@@ -116,7 +139,7 @@ fm1 = tk.Frame(top)
 fm1.pack(side = tk.LEFT)
 T2 = tk.Text(fm1,height = 1, width = 12)
 T2.pack(side = tk.LEFT)
-msg = "Stat: " + str(counter)
+msg = "Stat: " + str(counter) + "/" + str(ncards)
 T2.insert(tk.END,msg)
 
 top.mainloop()
