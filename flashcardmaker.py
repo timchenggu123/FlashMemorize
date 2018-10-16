@@ -39,9 +39,8 @@ lines = file.readlines()
 #Initializing deck
 ncards = len(lines)
 deck = list(range(ncards))
-status = [1] * ncards
 def shuffledeck():
-    global deck
+    global deck,counter,nm,currentside,status
     #rdnm = 999
     #for i in lines:
     #    temp = rdnm
@@ -54,8 +53,12 @@ def shuffledeck():
     rd.shuffle(deck)
     nm = 0 
     currentside = 0
+    counter = 0
+    status = [1] * (ncards + 1)
     
+
 shuffledeck()
+coutner = 0
 n = deck[nm] #n is the index of the card follwoing the order in the source file
 sideLabel = ["<front>","<back>"]
 #Constructing functions
@@ -84,11 +87,14 @@ def nextcard():
     global nm, n
     nm = nm + 1
     if nm == ncards:
-        nm = 1
+        dispstat()
+        nm = 0
+    else:
+        dispstat()
+        
     n = deck[nm]
-
     Disp(n)
-    dispstat()
+
     return
 
 def previouscard():
