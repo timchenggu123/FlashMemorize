@@ -11,16 +11,23 @@ currentside = 0 #holds the current state of each card.
 counter = 1
 
 # Declaring Classes
-class card:   
+class card:
+#This class creates card objects. The class contains the following methods:
+#  - __init__('front','back', 1234): The constructor.
+#  - flip(self, notRandom =0): flip to the opposite side if not Random = 0, or flip to a random side otherwise
+#  - show(): return the text on the current side of the card
+
     def __init__(self,front,back,ID):
-        self.front = front
-        self.back = back
-        self.side = 1
-        self.timesStudied = 0
-        self.timesCorrect = 0
-        self.id = ID
+        self.front = front         # String variable. Contains content on the front side of the card
+        self.back = back           # String variable. Contains content on the back side of the card
+        self.side = 1              # int [0,1]. 1 represent front side and 0 represent back side. determine which side is facing up
+        self.timesStudied = 0      # int. How many times the cards been studied
+        self.timesCorrect = 0      # int. How many time sthe cards been right
+        self.id = ID               # int/string. A unique id for each card
     
     def flip(self, notRandom = 1):
+        # flip(self, notRandom =0): flip to the opposite side if not Random = 0, or flip to a random side otherwise
+        # notRandom: integer or logical. 0 to flip to a random side, 1 to flip to the opposite side.
         if notRandom:
             self.side = abs(self.side -1)
         else:
@@ -29,19 +36,27 @@ class card:
         return
     
     def show(self):
+        # show(): return the text on the current side of the card
         if self.side == 1:
             return self.front
         else:
             return self.back
     
 class deck:
+# The deck class' main purpose is to hold and manage a list of card objects
+
     def __init__(self,name,cards = [],):
+    # name<string/int>: a unique name for the deck
+    # cards<list>: a list containing card objects
         self.cards = cards
         self.size = len(cards)
-        self.order = list(range(len(cards)))
+        self.order = list(range(len(cards))) # A list containing the order by which the cards are sorted
         self.name = name
         
     def shuffle(self,allCards = 1,rndFlip = 0):
+    #Shuffle the deck
+    #allCards<int/logical> [0,1]: 1 then the deck is shuffled such that all cards are included at least once
+    #rndFlip<int> [0,1,2]: 0: all cards facing front; 1: all cards randomly flipped; 2: all cards facing back
         self.order = list(range(len(self.cards)))
         if allCards:
             rd.shuffle(self.order)
@@ -60,6 +75,8 @@ class deck:
                 self.cards[i].side = 0
                 
     def append(self,card):
+        # Add a new card to the bottom of the deck and restore order. Call this method instead of directly modifying self.cards.
+        # card: the card object to be appended
         self.cards.append(card)
         self.size = len(self.cards)
         self.order = list(range(len(self.cards)))
@@ -79,6 +96,7 @@ class mainProgram(QWidget):
         self.dk = deck # a deck object
         self.i = 0 # a counter keeping track of where we are in the deck
         
+        self.shuffle()
         self.initUI()
         
         
@@ -124,7 +142,6 @@ class mainProgram(QWidget):
         self.show()
     
     def readCard(self,i):
-        self.cards = self.dk.getdeck()
         return(self.cards[i].show())
     
     def showCard(self):
@@ -149,11 +166,11 @@ class mainProgram(QWidget):
     
     @pyqtSlot()
     def Flip(self):
-        self.dk.cards[self.i].flip()
+        self.cards[self.i].flip()
         self.showCard()
 
-    @pyqtSlot()
     def Shuffle(self):
+        self.cards = self.dk.getdeck()
         self.i = 0
         self.dk.shuffle()
         self.showCard()
