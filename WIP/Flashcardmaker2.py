@@ -82,6 +82,7 @@ class deck:
         self.order = list(range(len(self.cards)))
        
     def getdeck(self):
+        # return a list containing cards sorted according to self.order
         dk = list()
         for i in self.order:
             dk.append(self.cards[i])
@@ -91,10 +92,11 @@ class deck:
 class mainProgram(QWidget):
     
     def __init__(self,deck):
+    # deck: a deck object to be displayed by the program
         super().__init__()
         
-        self.dk = deck # a deck object
-        self.i = 0 # a counter keeping track of where we are in the deck
+        self.dk = deck
+        self.i = 0           # a counter keeping track of where we are in the deck
         
         self.shuffle()
         self.initUI()
@@ -106,14 +108,8 @@ class mainProgram(QWidget):
         
         # The buttons 
         btnNext = QPushButton('Next')
-        #btnNext.resize(btnNext.sizeHint())
-        
         btnFlip = QPushButton('Flip')
-        #btnFlip.resize(btnFlip.sizeHint())
-        
         btnPrev = QPushButton('Previous',self)
-        #btnPrev.resize(btnPrev.sizeHint())
-
         btnShuf = QPushButton('Shuffle',self)
         
         btnPrev.clicked.connect(self.Prev)
@@ -142,13 +138,17 @@ class mainProgram(QWidget):
         self.show()
     
     def readCard(self,i):
-        return(self.cards[i].show())
+    #Return the text on the current side of card[i]
+    # i <int> the ith card in the deck
+        return(self.cards[i].show()) 
     
     def showCard(self):
-        self.label.setText(self.readCard(self.i))
+    #Display the text on canvas
+        self.label.setText(self.readCard(self.i)) #
         
     @pyqtSlot()
     def Next(self):
+    # pyqt slot. show next card in deck on the canvas
         ncards = self.dk.size
         self.i = self.i + 1
         if self.i == ncards:
@@ -158,6 +158,8 @@ class mainProgram(QWidget):
         
     @pyqtSlot()
     def Prev(self):
+    # pyqt slot. show previous card on canvas
+    # fuck you xinghao
         self.i = self.i - 1
         if self.i < 0:
             self.i = self.dk.size - 1
@@ -165,14 +167,17 @@ class mainProgram(QWidget):
         self.showCard()
     
     @pyqtSlot()
+    # flip the current card and show it on canvas
     def Flip(self):
         self.cards[self.i].flip()
         self.showCard()
 
     def Shuffle(self):
-        self.cards = self.dk.getdeck()
+    # shuffle deck
+    # Can have more arguments to allow different shuffle modes (see method shuffle() in class deck)
         self.i = 0
         self.dk.shuffle()
+        self.cards = self.dk.getdeck()
         self.showCard()
     
     
