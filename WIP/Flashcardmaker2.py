@@ -66,13 +66,13 @@ class deck:
                 
         if rndFlip == 0:
             for i in self.cards:
-                self.cards[i].side = 1
+                i.side = 1
         elif rndFlip == 1:
             for i in self.cards:
-                self.cards[i].flip(notRandm = 0)
+                i.flip(notRandm = 0)
         else:
             for i in self.cards:
-                self.cards[i].side = 0
+                i.side = 0
                 
     def append(self,card):
         # Add a new card to the bottom of the deck and restore order. Call this method instead of directly modifying self.cards.
@@ -98,13 +98,15 @@ class mainProgram(QWidget):
         self.dk = deck
         self.i = 0           # a counter keeping track of where we are in the deck
         
-        self.shuffle()
         self.initUI()
         
         
     def initUI(self):
         # The main canvas
-        self.label = QLabel(self.readCard(self.i),self)
+        self.label = QLabel('',self)
+        
+        # Shuffle cards
+        self.shuffle()
         
         # The buttons 
         btnNext = QPushButton('Next')
@@ -115,7 +117,7 @@ class mainProgram(QWidget):
         btnPrev.clicked.connect(self.Prev)
         btnFlip.clicked.connect(self.Flip)
         btnNext.clicked.connect(self.Next)
-        btnShuf.clicked.connect(self.Shuffle)
+        btnShuf.clicked.connect(self.shuffle)
         
                 
         # Create Boxes
@@ -172,7 +174,7 @@ class mainProgram(QWidget):
         self.cards[self.i].flip()
         self.showCard()
 
-    def Shuffle(self):
+    def shuffle(self):
     # shuffle deck
     # Can have more arguments to allow different shuffle modes (see method shuffle() in class deck)
         self.i = 0
@@ -209,19 +211,4 @@ if __name__ == '__main__':
     
     app = QApplication(sys.argv)
     ex = mainProgram(dk)
-    sys.exit(app.exec_())
-#
-#    w = QWidget()
-#    w.reside(250,150)
-#    w.move(300,300)
-#    w.setWindowTitle('test')
-#    w.show()
-#    
-#    sys.exit(app.exec_())
-#    
-
-
-
-    
-            
-    
+sys.exit(app.exec_())
