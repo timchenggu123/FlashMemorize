@@ -304,11 +304,13 @@ ID = 0
 
 # generating deck
 for l in lines:
-    if l.find('    ') > 0:
-        a = l.find('    ') 
-        b = l.find('    ') +4
-    front = l[0:a]
+    if l.find('\t') > 0:
+        a = l.find('\t') 
+        b = l.find('\t') +1
+    front = l[0:a] 
+    front = front.replace('\\n','<br>')
     back = l[b:]
+    back = back.replace('\\n','<br>')
     all_cards.append(card(front,back,ID))
     ID = ID +1
 
