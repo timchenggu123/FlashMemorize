@@ -24,7 +24,7 @@ class card:
         self.timesStudied = 0      # int. How many times the cards been studied
         self.timesCorrect = 0      # int. How many time sthe cards been right
         self.id = ID               # int/string. A unique id for each card
-    
+        self.viewed = 0
     def flip(self, notRandom = 1):
         # flip(self, notRandom =0): flip to the opposite side if not Random = 0, or flip to a random side otherwise
         # notRandom: integer or logical. 0 to flip to a random side, 1 to flip to the opposite side.
@@ -97,19 +97,19 @@ class deck:
         return dk
     
     def newSubdeck(self,subIDs):
-        self.subDeck.append(deck(self.cards[indx] for indx in subIDs))
+        self.subDeck.append(deck([self.cards[indx] for indx in subIDs]))
     
     def deckStats(self):
         #returns the overall correct rate of the deck
-        a = 0
-        b = 0
+        accuracy = 0
+        totaltimes = 0
+        totalviewed = 0
         for i in self.cards:
-            a = a + i.timesCorrect
-            b = b + i.timesStudied
-        if b != 0:
-            return [a,b]
-        else:
-            return 0
+            accuracy = accuracy + i.getStats()
+            totaltimes = totaltimes + i.timesStudied
+            totalviewed = totalviewed + i.viewed
+        accuracy = accuracy/totalviewed
+        return [accuracy, totaltimes]
         
 class mainProgram(QWidget):
     
@@ -118,42 +118,50 @@ class mainProgram(QWidget):
         super().__init__()
         
         self.dk = deck
-        self.i = 0           # a counter keeping track of where we are in the deck
+        self.i = 0           # a counter keeping track of the current card index in self.cards
         self.correct = 1
         
         self.initUI()
         
         
     def initUI(self):
+        
+        # Shuffle cards
+        self.shuffle()
+        
         # The main canvas
-        self.stats = QLabel('                                               ',self)
+        self.stats = QLabel('% accuracy: 0% Cards Studied: 0 Total Cards: ' + str(self.dk.size),self)
         self.stats.setGeometry(1,1,400,20)
+        self.dispID = QLabel('CardID:' + str(self.cards[self.i].id),self)
+        self.dispID.setGeometry(30,30,100,20)
+        
         self.canvas = QLabel('',self)
         self.canvas.setGeometry(30,30,400,200)
         self.canvas.setFrameStyle(QFrame.Panel)
         
-        # Shuffle cards
-        self.shuffle()
-        self.updateStats()
+        
         # The buttons 
-        btnNext = QPushButton('Good')
+        btnGood = QPushButton('Good')
         btnFlip = QPushButton('Flip')
         btnPrev = QPushButton('Previous',self)
         btnShuf = QPushButton('Shuffle',self)
         btnBad = QPushButton('Bad',self)
+        btnNext = QPushButton('Next',self)
         
         btnPrev.clicked.connect(self.Prev)
         btnFlip.clicked.connect(self.Flip)
-        btnNext.clicked.connect(self.Good)
+        btnGood.clicked.connect(self.Good)
         btnShuf.clicked.connect(self.shuffle)
         btnBad.clicked.connect(self.Bad)
-                
+        btnNext.clicked.connect(self.Next)
+        
         # Create Boxes
         hbox = QHBoxLayout()
        
         hbox.addWidget(btnPrev)
         hbox.addWidget(btnFlip)
         hbox.addWidget(btnNext)
+        hbox.addWidget(btnGood)
         hbox.addWidget(btnBad)
         hbox.addWidget(btnShuf)
         
@@ -175,18 +183,22 @@ class mainProgram(QWidget):
     
     def showCard(self):
     #Display the text on canvas
-        self.canvas.setText(self.readCard(self.i)) #
+        self.canvas.setText(self.readCard(self.i)) 
+        self.dispID.setText('CardID:' + str(self.cards[self.i].id))
+    def moveCard(self,step,updateStats = 1):
+        if updateStats:
+            self.updateStats()
+#        else:
+#            currentId = self.cards[self.i].id
+#            self.dk.cards[currentId].viewed = 1
         
-    def moveCard(self,step):
-        
-        self.updateStats()
         ncards = self.dk.size
         self.i = self.i + step
         if self.i == ncards:
             self.i = 0
         elif self.i < 0:
             self.i = self.dk.size - 1
-            
+        
         
     
     @pyqtSlot()
@@ -201,7 +213,7 @@ class mainProgram(QWidget):
     # pyqt slot. show previous card on canvas
     # fuck you xinghao
     
-        self.moveCard(-1)
+        self.moveCard(-1,0)
         self.showCard()
     
     @pyqtSlot()
@@ -216,7 +228,6 @@ class mainProgram(QWidget):
         self.i = 0
         self.dk.shuffle()
         self.cards = self.dk.getdeck()
-        self.showCard()
     
     @pyqtSlot()
     def Bad(self):
@@ -226,14 +237,20 @@ class mainProgram(QWidget):
         self.showCard()
         print('marked')
     
+    @pyqtSlot()
+    def Next(self):
+        self.moveCard(1,0)
+        self.showCard()
+                
     def updateStats(self):
     #update the times correct stats of a card
     # correct <int> [0,1]. 0 represent the answer is wrong, 1 represent the answer is correct
         currentId= self.cards[self.i].id
         self.dk.cards[currentId].timesStudied = self.dk.cards[currentId].timesStudied + 1
         self.dk.cards[currentId].timesCorrect = self.dk.cards[currentId].timesCorrect + self.correct
+        self.dk.cards[currentId].viewed = 1
         deckStats = self.dk.deckStats()
-        self.stats.setText('Cards Correct: ' + str(deckStats[0]) + ' Cards Studied:  ' 
+        self.stats.setText('% accuracy: ' + str(round(deckStats[0]*100)) + '% Cards Studied:  ' 
                            +  str(deckStats[1]) + ' Total Cards: ' + str(self.dk.size))
         self.correct = 1
         
