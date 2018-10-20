@@ -1,6 +1,7 @@
 import tkinter as tk
 import random as rd
 import sys
+import pickle
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow,QFrame
 from PyQt5.QtCore import pyqtSlot
 from tkinter.filedialog import askopenfilename
@@ -110,6 +111,14 @@ class deck:
             totalviewed = totalviewed + i.viewed
         accuracy = accuracy/totalviewed
         return [accuracy, totaltimes]
+        
+    def rankCards(self):
+        cardsStats = [self.cards[indx].getStats() for indx in range(self.size)]
+        cardsID = [self.cards[indx].id for indx in range(self.size)]
+        statsID = zip(cardsStats,cardsID)   
+        statsID = sorted(statsID)
+        rank = [ID for _,ID in statsID ]
+        return rank
         
 class mainProgram(QWidget):
     
@@ -253,6 +262,12 @@ class mainProgram(QWidget):
         self.stats.setText('% accuracy: ' + str(round(deckStats[0]*100)) + '% Cards Studied:  ' 
                            +  str(deckStats[1]) + ' Total Cards: ' + str(self.dk.size))
         self.correct = 1
+        
+    def saveDeck(self):
+        filename = input()
+        outfile = open(filename,'wb')
+        pickle.dump(self.dk,outfile)
+        outfile.close()
         
 # test
 class mainWindow(QMainWindow):
