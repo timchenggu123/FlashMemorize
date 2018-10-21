@@ -6,4 +6,5 @@ Each line of the text file contains information for one card. The first group of
 
 ## Dependencies
 >PyQt5
+
 >tkinter
