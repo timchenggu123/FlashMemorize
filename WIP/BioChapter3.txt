@@ -1,0 +1,23 @@
+The first 'archaeons' were?	methanogens
+Major phyla of Archaea [4]	Euryarchaeota\n-Crenarchaeota\n-Thaumarchaeota\n-Nanoarchaeota
+Archeal Cytoplasm feature similar to bacteria?	-inclusion bodies\n-neucloid\n-cyctoskeletal proteins
+Archeal Cytoplasm feature similar to Eukaryotes?	-histones\n-chromosome(one circular)\n-some actin(Ta0583)
+Unique about archea plasma membrane	-Ether linkage(extra stability)\n-some has monolayers (very stable)
+What is special about Ignicoccus	has an outer membrane and large periplasm\n-ATP synthesis happen in the periplasm
+Archea Cell wall is constructed of?	NAG and NAT (no D-amino acids, unlike bacteria)
+T or F, Archea do not have S-layer	False
+cannulae	hollow glycoprotein tubes that form cells together to form a network
+T or F, Archea flagellum is more complicated than bacteria's	false
+Crenarchaeota	-thermophiles\n-Also include acidophiles&barophiles
+How does Crenarchaeota survive extreme conditions	-tetraether lipid monolayer\n-thermostable DNA-binding proteins\n-modified proteins\n-reverse DNA gyrase increase DNA supercoiling
+Euryarchaeota includes? [2]	-halophiles & methanogens)
+halophiles	live in high salt environments\n-phototrphic--bacteriorhodopsin harness light energy and produces PMF (red)
+How does halophiles survive?	-high internal [K+] offsets external [Na+]\n-DNA has stronger GC contents(stronger bonds)\n-High acidic proteins that are stable in salt environments
+Methanogens [3]	-reduce CO2 with H2, produce CH4 and H2O\n-energy released can fix C\n-strict anaerobes
+Where can you find one of the early archeas?	-they are methanogens\n-bottom of a swamp or inside animal digestive tracks or geothermal vents
+Volta experiment	-inverted funnel traps CH4 from methanogenic freshwater sediments
+TACK super phylum inclues	-Thaumarcheaota, Aigarcheaota, Korarcheaota, Crenarcheaota
+Thaumarchaeota	-Ammonium oxidizing
+Nanoarchaeota	-member of DPANN
+Nanoarchaeum equitans	-obligate parasite of the Ignicoccus\n-very little gene
+Loki % Thorarchaeota	-very similar to eukaryotes

@@ -1,0 +1,26 @@
+Bacterial morphologies & habitat [5]	-spherical(coccus) --not very mobile\m-rod-shaped(bacillus) --can swim better\n-comma-shaped(vibrio) --swim even better??\n-spiral(spirillum) --internal flagella, screw their way through environment\n-pleiomophic(random shapes)
+Advantage to being larger/smaller	-smaller allows better nutrient uptake efficiency
+Bactrial Multicelluar organizations [3]	-hyphae(barnching filaments of cells)\n-mycelia(tufts of hyphae\n-trichomes(smooth,unbranched chains of cells)
+Cytoplam of bacteria [11]	-nucleoid\n-histone like proteins\n-DNA,RNA synthesis\n-Regulatory factors(control replication, transcription and translation)\n-Ribosomes\n-Plasmids\n-Enzymes breaking down substrates\n-Inclusion bodies\n-Gas vesicles\n-Magnetosomes\n-Cytoskeletal structures
+The largest area in bacterial plamid is?	nucleoid
+How does bacteria structure DNA	-use of cations\n-use of positively charged proteins\n-topoisomerases enable DNA "supercoiling"
+Functions of bacterial plama membrane?	nutrient transport, energy fcapture, sensory systems
+MreB	provides structure to bacteria cells
+ester linkages	chemical link that connects hydropillic polar head to hydrophobic fatty acid tails of a phospholipid in cell wall
+Facilitated diffusion and co-transport	-move by concentration gradient\n-no energy required
+Active transport	-protein transporter moves particles against concentration gradient\n-requries energy
+Protein secretion	-shipping proteins outside the cell\n-uses ATP energy
+Bacterial cell wall is made of	NAM and NAG and peptide crosslink
+Transpeptidation	-connect NAM and NAM to form pentapiptide crosslink
+Transglycosylation	-connect NAM and NAG together
+How does lysozyme work?	cleaves the backbone of peptidoglycan
+Gram-positive cells	-THICC outer layer of peptidoglycan\n-Negatively charged lipoteichoic acids in the peptidoglycan\n-Purple after the Gram-Stain
+Gram-negaive Cells	-Thin outer layer\n-outer membrane contain lipopolysaccharide\n-Pink after Gram-Stain
+Molecues get out of the Gram negative cell.. [3]	Through the falagellum acting as a syringe\n-through porin (diffusion)\n-TonB-dependent receptors catalyze high-affinity active transport of molecules
+Pili	Allow attachment to places
+Chemotaxis	Chemoreceptor proteins temporally sense changes in concentraions of attractants or repellents (how bacteria navigate)
+Nonflagellar motitity include	-Gliding\n-Twitching\n-Polymerization of actin in host cells for propulsion
+Capsules	Thick layer of polysaccharides surrounding some cells\n-provide adhesion and defense\n-help form biofilms
+Surface Arrays(S-Layers)	-layer of interlocking proteins\n-offers protection\n-found in both Gram - and Gram + cells
+Taxonomy structure	-Domain(Kingdom),phylum,class,order,family,genus,species
+fimbriae	aid cells to adhere to surfaces

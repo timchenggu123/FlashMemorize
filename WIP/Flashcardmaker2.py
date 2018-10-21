@@ -2,8 +2,10 @@ import tkinter as tk
 import random as rd
 import sys
 import pickle
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow,QFrame
+import os.path
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow,QFrame, QFileDialog, QAction
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QIcon
 from tkinter.filedialog import askopenfilename
 
 # initalize global variables
@@ -102,15 +104,19 @@ class deck:
     
     def deckStats(self):
         #returns the overall correct rate of the deck
-        accuracy = 0
-        totaltimes = 0
+        totalcorrect = 0
+        totalstudied = 0
         totalviewed = 0
         for i in self.cards:
-            accuracy = accuracy + i.getStats()
-            totaltimes = totaltimes + i.timesStudied
+            totalcorrect = totalcorrect + i.timesCorrect
+            totalstudied = totalstudied + i.timesStudied
             totalviewed = totalviewed + i.viewed
-        accuracy = accuracy/totalviewed
-        return [accuracy, totaltimes]
+        if totalstudied == 0:
+            accuracy = 0
+        else:
+            accuracy = totalcorrect/totalstudied
+        
+        return [accuracy, totalstudied,totalviewed]
         
     def rankCards(self):
         cardsStats = [self.cards[indx].getStats() for indx in range(self.size)]
@@ -119,7 +125,11 @@ class deck:
         statsID = sorted(statsID)
         rank = [ID for _,ID in statsID ]
         return rank
-        
+    
+    def resetViewed(self):
+        for i in self.cards:
+            i.viewed = 0
+            
 class mainProgram(QWidget):
     
     def __init__(self,deck):
@@ -136,18 +146,21 @@ class mainProgram(QWidget):
     def initUI(self):
         
         # Shuffle cards
-        self.shuffle()
+        self.cards = self.dk.getdeck()
         
         # The main canvas
         self.stats = QLabel('% accuracy: 0% Cards Studied: 0 Total Cards: ' + str(self.dk.size),self)
-        self.stats.setGeometry(1,1,400,20)
+        self.stats.setGeometry(1,1,500,20)
         self.dispID = QLabel('CardID:' + str(self.cards[self.i].id),self)
         self.dispID.setGeometry(30,30,100,20)
         
         self.canvas = QLabel('',self)
-        self.canvas.setGeometry(30,30,400,200)
+        self.canvas.setGeometry(30,30,500,250)
         self.canvas.setFrameStyle(QFrame.Panel)
+        self.canvas.setWordWrap(True)
         
+        self.showCard()
+        self.updateStats(0)
         
         # The buttons 
         btnGood = QPushButton('Good')
@@ -194,6 +207,7 @@ class mainProgram(QWidget):
     #Display the text on canvas
         self.canvas.setText(self.readCard(self.i)) 
         self.dispID.setText('CardID:' + str(self.cards[self.i].id))
+        
     def moveCard(self,step,updateStats = 1):
         if updateStats:
             self.updateStats()
@@ -207,7 +221,7 @@ class mainProgram(QWidget):
             self.i = 0
         elif self.i < 0:
             self.i = self.dk.size - 1
-        
+        self.updateStats(0)
         
     
     @pyqtSlot()
@@ -216,6 +230,7 @@ class mainProgram(QWidget):
     
         self.moveCard(1)
         self.showCard()
+        
         
     @pyqtSlot()
     def Prev(self):
@@ -237,6 +252,8 @@ class mainProgram(QWidget):
         self.i = 0
         self.dk.shuffle()
         self.cards = self.dk.getdeck()
+        self.dk.resetViewed()
+        self.updateStats(0)
     
     @pyqtSlot()
     def Bad(self):
@@ -251,23 +268,32 @@ class mainProgram(QWidget):
         self.moveCard(1,0)
         self.showCard()
                 
-    def updateStats(self):
+    def updateStats(self, updateCards = 1):
     #update the times correct stats of a card
     # correct <int> [0,1]. 0 represent the answer is wrong, 1 represent the answer is correct
-        currentId= self.cards[self.i].id
-        self.dk.cards[currentId].timesStudied = self.dk.cards[currentId].timesStudied + 1
-        self.dk.cards[currentId].timesCorrect = self.dk.cards[currentId].timesCorrect + self.correct
-        self.dk.cards[currentId].viewed = 1
+        currentId= self.cards[self.i].id    
+        if updateCards:
+                self.dk.cards[currentId].timesStudied = self.dk.cards[currentId].timesStudied + 1
+                self.dk.cards[currentId].timesCorrect = self.dk.cards[currentId].timesCorrect + self.correct
+                self.dk.cards[currentId].viewed = 1
+            
+        cardStats = self.dk.cards[currentId].getStats()
         deckStats = self.dk.deckStats()
-        self.stats.setText('% accuracy: ' + str(round(deckStats[0]*100)) + '% Cards Studied:  ' 
-                           +  str(deckStats[1]) + ' Total Cards: ' + str(self.dk.size))
+        self.stats.setText('Current Card Accuracy: ' + str(round(cardStats*100)) + '% Overall accuracy: ' + 
+                           str(round(deckStats[0]*100)) + '% Cards Studied:  ' 
+                           +  str(deckStats[1]) + ' Total Cards: ' + str(deckStats[2]) + '/' + str(self.dk.size))
         self.correct = 1
         
-    def saveDeck(self):
-        filename = input()
+    def saveDeck(self,filename):
         outfile = open(filename,'wb')
         pickle.dump(self.dk,outfile)
         outfile.close()
+    
+    def loadDeck(self,deck):
+        # deck <obj> the deck object to be loaded
+        self.dk = deck
+        self.i = 0
+        self.updateStats(0)
         
 # test
 class mainWindow(QMainWindow):
@@ -283,39 +309,71 @@ class mainWindow(QMainWindow):
         self.mp = mainProgram(self.deck)
         self.setCentralWidget(self.mp)
         
+        # set menu
+        mSave = QAction(QIcon(), '&Save',self)
+        mSave.setShortcut('Ctrl+S')
+        mSave.setStatusTip('Save current deck')
+        mSave.triggered.connect(self.saveToFile)
+        
+        mLoad = QAction(QIcon(),'&Load',self)
+        mLoad.setShortcut('Ctrl+O')
+        mLoad.setStatusTip('Open a saved deck')
+        mLoad.triggered.connect(self.loadFile)
+        
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('&File')
+        fileMenu.addAction(mSave)
+        fileMenu.addAction(mLoad)
+        
         self.statusBar().showMessage('Ready')
         
-        self.setGeometry(300, 300, 300, 300)
-        self.setWindowTitle('Statusbar')    
+        self.setGeometry(300, 300, 300, 400)
+        self.setWindowTitle('FlashCardMaker2.1')
         self.show()
         
     def showStats(self):
         stats = self.mp.dk.deckStats()
         self.statusBar().showMessage(str(stats[0]) + '/' + str(stats[1]))
+     
+    @pyqtSlot()
+    def saveToFile(self):
+        f,_ = QFileDialog.getSaveFileName(directory='untitled.dk',filter = 'Deck File (*.dk)')
+        self.mp.saveDeck(f)
+        
+    @pyqtSlot()
+    def loadFile(self):
+        f,_ = QFileDialog.getOpenFileName(filter = 'Deck File (*.dk)')
+        file = open(f,'rb')
+        dk = pickle.load(file)
+        self.mp.loadDeck(dk)
+        
         
 #Prompt user to select source file & extract lines from source file
 tk.Tk().withdraw()  
 filename = askopenfilename()
-file = open(filename, 'r')
-lines = file.readlines()
-
-all_cards = list()
-ID = 0
-
-# generating deck
-for l in lines:
-    if l.find('\t') > 0:
-        a = l.find('\t') 
-        b = l.find('\t') +1
-    front = l[0:a] 
-    front = front.replace('\\n','<br>')
-    back = l[b:]
-    back = back.replace('\\n','<br>')
-    all_cards.append(card(front,back,ID))
-    ID = ID +1
-
-dk = deck(filename,all_cards)
-cards = dk.getdeck()
+ext = os.path.splitext(filename)[1]
+if ext == '.txt':
+    file = open(filename, 'r')
+    lines = file.readlines()
+    
+    all_cards = list()
+    ID = 0
+    
+    # generating deck
+    for l in lines:
+        if l.find('\t') > 0:
+            a = l.find('\t') 
+            b = l.find('\t') +1
+        front = l[0:a] 
+        front = front.replace('\\n','<br>')
+        back = l[b:]
+        back = back.replace('\\n','<br>')
+        all_cards.append(card(front,back,ID))
+        ID = ID +1
+        dk = deck(filename,all_cards)
+elif ext == '.dk':
+    file = open(filename,'rb')
+    dk = pickle.load(file)
 
 
 #Entering Mainloop
