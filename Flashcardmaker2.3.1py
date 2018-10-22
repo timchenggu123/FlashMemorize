@@ -4,6 +4,7 @@ import sys
 import pickle
 import os.path
 import json
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow,QFrame, QFileDialog, QAction, QMenu, 
 QMessageBox)
 from PyQt5.QtCore import pyqtSlot
@@ -505,7 +506,13 @@ if ext == '.txt':
 elif ext == '.dk':
     file = open(filename,'rb')
     dk = pickle.load(file)
+# Hight resolution support....not sure how this work...
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+# end of high resolution suppport
 #Entering Mainloop
 if __name__ == '__main__':
     
