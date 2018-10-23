@@ -195,7 +195,7 @@ class mainProgram(QWidget):
         
         # The main canvas
         self.stats = QLabel('% accuracy: 0% Cards Studied: 0 Total Cards: ' + str(self.dk.size),self)
-        self.stats.setGeometry(1,1,500,20)
+        self.stats.setGeometry(1,1,600,20)
         
         self.canvas = QLabel('',self)
         self.canvas.setGeometry(30,30,500,250)
