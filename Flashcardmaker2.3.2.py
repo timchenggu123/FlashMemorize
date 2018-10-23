@@ -412,7 +412,7 @@ class mainWindow(QMainWindow):
         self.statusBar().showMessage('Ready')
         
         self.setGeometry(300, 300, 300, 400)
-        self.setWindowTitle('FlashCardMaker2.3.1')
+        self.setWindowTitle('FlashCardMaker2.3.2')
         self.show()
         
     def showStats(self):
@@ -426,11 +426,33 @@ class mainWindow(QMainWindow):
         
     @pyqtSlot()
     def loadFile(self):
-        f,_ = QFileDialog.getOpenFileName(filter = 'Deck File (*.dk)')
-        file = open(f,'rb')
-        dk = pickle.load(file)
-        self.mp.loadDeck(dk)
-        
+        f,_ = QFileDialog.getOpenFileName(filter = 'Deck File (*.dk) ;; Text File(*.txt)')
+        ftype = os.path.splitext(f)[1]
+        if ftype == '.dk':
+            file = open(f,'rb')
+            dk = pickle.load(file)
+            self.mp.loadDeck(dk)
+        else:
+            file = open(filename, 'r')
+            lines = file.readlines()
+            all_cards = list()
+            ID = 0
+            # generating deck
+            for l in lines:
+                if l.find('\t') > 0:
+                    a = l.find('\t') 
+                    b = a +1
+                front = l[0:a] 
+                front = front.replace('\\n',opt.var['kwrd_newline'])
+                
+                back = l[b:]
+                back = back.replace('\\n',opt.var['kwrd_newline'])
+                
+                all_cards.append(card(front,back,ID))
+                ID = ID +1
+            dk = deck(filename,all_cards)
+            self.mp.loadDeck(dk)
+             
 class options:
     def __init__(self):
         self.var_default = {
