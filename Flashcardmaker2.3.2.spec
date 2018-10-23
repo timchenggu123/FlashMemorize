@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Flashcardmaker2.3.2.py'],
-             pathex=['C:\\Users\\TimGU\\Desktop\\code\\flashcardmaker'],
+             pathex=['E:\\Code\\flashcard'],
              binaries=[],
              datas=[],
              hiddenimports=[],

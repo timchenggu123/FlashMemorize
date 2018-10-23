@@ -110,7 +110,7 @@ class deck:
             #print(pool)
             for i in range(ncards):
                 draw = rd.randrange(0,pool[len(pool)-1])
-                print(draw)
+                #print(draw)
                 nth = -1
                 for location in pool:
                     nth = nth +1

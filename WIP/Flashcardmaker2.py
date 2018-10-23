@@ -90,7 +90,7 @@ class deck:
             for card in range(ncards):
                 accuracy.append(self.cards[card].getStats())
             temp = 0
-            #print(accuracy)
+            ##print(accuracy)
             card = -1
             for a in accuracy:
                 if a == 0:
@@ -106,18 +106,18 @@ class deck:
                 a = a + temp
                 temp = a
                 pool.append(int(a*100))
-            #print(pool)
+            ##print(pool)
             for i in range(ncards):
                 draw = rd.randrange(0,pool[len(pool)-1])
-                print(draw)
+                #print(draw)
                 nth = -1
                 for location in pool:
                     nth = nth +1
                     if draw < location:
                         self.order.append(nth)
                         break
-            #print(pool)
-            print(self.order)
+            ##print(pool)
+            #print(self.order)
                 
         if rndFlip == 0:
             for i in self.cards:
@@ -320,7 +320,7 @@ class mainProgram(QWidget):
         self.correct = 0
         self.moveCard(1)
         self.showCard()
-        print('marked')
+        #print('marked')
     
     @pyqtSlot()
     def Next(self):
