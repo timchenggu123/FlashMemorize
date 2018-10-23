@@ -196,7 +196,7 @@ class mainProgram(QWidget):
         
         # The main canvas
         self.stats = QLabel('% accuracy: 0% Cards Studied: 0 Total Cards: ' + str(self.dk.size),self)
-        self.stats.setGeometry(1,1,500,20)
+        self.stats.setGeometry(1,1,600,20)
         
         self.canvas = QLabel('',self)
         self.canvas.setGeometry(30,30,500,250)
@@ -412,7 +412,7 @@ class mainWindow(QMainWindow):
         self.statusBar().showMessage('Ready')
         
         self.setGeometry(300, 300, 300, 400)
-        self.setWindowTitle('FlashCardMaker2.1')
+        self.setWindowTitle('FlashCardMaker2.3.1')
         self.show()
         
     def showStats(self):
