@@ -298,22 +298,27 @@ class mainProgram(QWidget):
         self.cards[self.i].flip()
         self.showCard()
 
-    def shuffle(self):
+    def shuffle(self,initialize = 0):
     # shuffle deck
     # Can have more arguments to allow different shuffle modes (see method shuffle() in class deck)
-        choice = QMessageBox.question(self,'Shuffle','Do you wish to shuffle?',QMessageBox.Yes|QMessageBox.No)
-        
-        if choice == QMessageBox.Yes:
-            self.i = 0
-            self.dk.shuffle(opt.var['shufflemode'],opt.var['rdmflip'])
+        if initialize:
             self.cards = self.dk.getdeck()
-            self.dk.resetViewed()
             self.updateStats(0)
-            msg = QMessageBox(self)
-            msg.setWindowTitle('')
-            msg.setText('completed!')
-            msg.exec_();
             self.showCard()
+        else:
+            choice = QMessageBox.question(self,'Shuffle','Do you wish to shuffle?',QMessageBox.Yes|QMessageBox.No)
+            
+            if choice == QMessageBox.Yes:
+                self.i = 0
+                self.dk.shuffle(opt.var['shufflemode'],opt.var['rdmflip'])
+                self.cards = self.dk.getdeck()
+                self.dk.resetViewed()
+                self.updateStats(0)
+                msg = QMessageBox(self)
+                msg.setWindowTitle('')
+                msg.setText('completed!')
+                msg.exec_();
+                self.showCard()
             
     @pyqtSlot()
     def Bad(self):
@@ -354,6 +359,7 @@ class mainProgram(QWidget):
         self.dk = deck
         self.i = 0
         self.updateStats(0)
+        self.showCard()
         
 # test
 class mainWindow(QMainWindow):
@@ -426,15 +432,17 @@ class mainWindow(QMainWindow):
         
     @pyqtSlot()
     def loadFile(self):
-        f,_ = QFileDialog.getOpenFileName(filter = 'Deck File (*.dk) ;; Text File(*.txt)')
+        f,_ = QFileDialog.getOpenFileName(filter = 'Flash Card Files (*.txt *.dk)')
         ftype = os.path.splitext(f)[1]
+        print(ftype)
         if ftype == '.dk':
             file = open(f,'rb')
             dk = pickle.load(file)
             self.mp.loadDeck(dk)
         else:
-            file = open(filename, 'r')
+            file = open(f, 'r')
             lines = file.readlines()
+            #print(lines)
             all_cards = list()
             ID = 0
             # generating deck
@@ -450,8 +458,9 @@ class mainWindow(QMainWindow):
                 
                 all_cards.append(card(front,back,ID))
                 ID = ID +1
-            dk = deck(filename,all_cards)
+            dk = deck(f,all_cards)
             self.mp.loadDeck(dk)
+        self.mp.shuffle(initialize = 1)
              
 class options:
     def __init__(self):
