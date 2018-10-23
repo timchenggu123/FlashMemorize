@@ -1,0 +1,40 @@
+Difference between prokaryotic cells and eukaryotic cells	-DNA packaged in Chromosomes and stored in nucleus --Have other membrane bound organells such as mitochondria and chloroplasts
+What is a secretory pathway and what are the components of it?	-a series of organelles that directs newly made proteins to their proper destinations. --endoplasmic reticulum(ER) and the Golgi Apparatus
+The mechanism employed by mitochondria and chloroplasts to generate ATP?	chemiosomosis
+Difference between cellulose and chitin?	-cellulose are made of glucose while chitin is made of NAG --chitin has a 'N' in the chemical formula of the cell wall
+List 4 major structural categories in Eukaryote cyto skeletons	-microtubules --microfilaments --intermediate filamments
+How is the phylogeny of eukaryotic microbes determined	-through comparing SSU rRNA genes and other highly conserved genetic sequences.
+What are the four traditional eukaryotic microbes?	-Fungi --Protozoa --Slime moulds --Algae
+Saccharomyces cerevisiae likely have what features [2]	-It is a fungi (yeast), so it is likely to have a chitin cell wall and is heterotrophic
+What is a plasmodium?	a large, multinucleated aggregate formed by slime moulds
+slime moulds are __trophic	heterotrophic
+What is a Dictyostelium discoideum	-a type of slime mould that can form fruiting bodies
+Algae are __trophic	-photo
+What is a Chlamydomas?	______
+What is a haploid and what is a diploid?	-Diploid reproduce sexually by meiosis and contains two sets of chromosomes --haploid reporduce asexually by mitosis and contains one set of chromosomes
+What type of Eukaryote cause malaria?	-Plasmodium falciparum, which is a type of protoza
+What is a lysosome and what are its functions?	-an eukaryote organell that contain digestive enzymes which breaks down macromolecues
+What is a peroxisome and what are its functions?	-breakdown fatty acids --contains various oxidative enzymes, such as catalase and oxidase
+What is a hydrogenosome?	-production of H2 and ATP	-found in some amitochondriates --may be remnant of mitochondrion
+list 3 double membrance structures found typically in eukayotes.	-Mitochondria --Chloroplasts --nucleus
+What is transcription and where does it take place?	-transcription is the process of reading a piece of DNA and produce a mRNA --it takes place in the nucleus
+What is translation and where doe it take place?	-Tanslation is the when mRNA is read by a ribosome and built into protein(Polypeptide chain)
+What is the difference between rough and smooth ER?	-Rough ER has ribosomes attached. Proteins are modified in these
+What is a mitochondria	Plays a role in cell metabolism --use electron transport chains to produce ATP --participates in later stages of cellular respiration
+The lipid structure of eukaryote cell membrane is held together by	ester linkage
+What are sterols for? Do you find them in bacteria and archaeons?	-they are for membrane stability --only found in eukaryotes, but some bacteria has stero like structures.
+T or F eukarytoes has a higher abundance of protein in their cell membrance compared to bacteria and archeons	False. Think about it this way, prokaryotes has no cell organells so membranes has a lot more features to it
+list 3 functions of the microtubules 	-Intracellular transport -- separation of chromosomes in mitosis and meiosis --cell movement (e.g. cilia and flagella)
+list 3 functions of the microfilaments	-maintain cell shape --cell movment (pseudopods) --create division furrow in cytokinesis (?)
+list 2 functions of Intermediate filaments	-Nuclear structure --cell-cell interactions
+spindle fibers	assists in cell division
+what is a axoneme	-9+2 array of microtubules that form a eukaryote flagella
+What is the difference in motion of flagella between bacteria and eukarytoic cells?	-bacteria flagella move like a screw motion and is powered by proton motive force --eukaryotes flagella move in a whip like motion (powered by dynein) and get energy from hydrolysis of ATP
+eukaryotes membrane is covered by	a cell membrane
+How does eukaryote cytoskeleton faciliate intracellular transport?	-Kinesin walks along a microtubule carry a vesicle --can be exploited by pathogens that pretend to be a package
+Why is Chlamydomonas a good example to study?	-is a algae with two flagella form good for studying eukaryal flagella biogenesis --is durable and easy to grow
+Meiosis is _ haploid cells forming _ original diploid cell
+an ascus is 	-a yeast haploid
+Describe an algae reproductive life cycle	-haploid cell >> gametes >> spore >> meiosis to haploids 
+Describe the life cycle of a Dictyostelium [5]	-a slime mould --exists as a haploid unicell --multicellular "slug" is formed whith a stalk and fruiting body --spores form in the fruiting body, restarting life cycle as haploid cells --hapliod cells can fuse into a diploid macrocyst form (a giant orgy spore) --macrocyst from undergoes meiosis to generate more haploid cells
+Decribe the endosymbiotic theory	-one primitive microbe ingested another, forming a symbiosis
