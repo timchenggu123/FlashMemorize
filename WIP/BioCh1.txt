@@ -1,0 +1,26 @@
+Microbe vs microorganism	microbes include virus
+Robert Hooke	discovered micro fungi [1]
+Leeuwenhoek	first description of bacteria [2]
+Mass percentage of microorganisms	>50%
+The basis of life (6)	metabolism \n growth\n reproduction \n genetic variation/evolution\n respone/adaptation to the external environment\n homeostasis
+cell Key features 	Polypeptides(aminoacids) 50% \n Nucleic acids DNA 2-5% \n RNA 15-20% \n Lipids 10%\n Polysaccharides(surgars) 6-7%
+FtsZ	-Only in bacterial plasma membrane \n-Key component of cell division machinery
+C.R Woese	RNA sequencing
+Requirements of early life [3]	-genetic information storage \n -the ability to catalyze biochemical reactions\n -a way of separating the cell interior from the outside
+Micelles	a early form of plasma membrane
+Miller experiment	Stanley Miller; simulate early conditions of life
+Stromatolites	rock created by cyanobacteria
+Evolution of early life [4]	-RNA -> RNA + cell membrane -> protein sythesized from RNA -> DNA to RNA to Protein
+Louis Pasteur	-developed vaccines\n -disproved spontaneous generation
+Robert Kock	-Koch's postulates \n-basic rules for linking bacteria to disease
+features of LUCA [7]	-Membrane bound -Use ATP -Copy from DNA to RNA -Eats CO2 -Fix N2 -Anaerobic -Thermophile
+Origin of Eukaryotes	-Endosymbiotic theory:One Loki archea engulfed another bacteria
+Microbes get energy [2]	-heterotroph: ingest preformed organic molecules (LUCA?)\n -autotroph:produce organic olecules(on its own)
+Energy production process for aerobics: Glucose - [Glycolysis] - pyruvate + 2 ATP - [Aerobic repsiration] -> up to 36 ATP
+how bacteria contribute to the Nitrogen Cycle	-Nitrogen fixation\n - Decomposing\n -Denitrification
+Koch's postulates	-ill has bacteria, not ill does not\n-a pure culture obtained\n-healthy get bactria become ill\n-that guy has the bacteria
+Prevention of Infection [6]:	-antisptics\n- sanitation imporvements\n- food/water safety\n-personal hygiene\n-vaccination\n-antibiotics
+Is infectious diseases still a problem today?	yes
+Conditions on early Earth [4]	-little oxygen, reducing atmosphere\n-lots ofh2o,CH4,CO2,N2,NH3\n-temperature > 100C\n-energy input from souces (UV)
+TF: fist photosynthetic organisms are oxygenic	false
+Cyanobacteria's role in history of life:	oxygenic photosynthesis
