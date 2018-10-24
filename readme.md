@@ -10,7 +10,7 @@ To create a deck of flash cards:
  
   3) Press the {tab} key. Now you have finished the front side of your card!
  
-  4) Type what you want to write on the back of the card. Again, you can use '-' to initialize a new line (Tip: to create a bullet, I use ' --'. See some of the test files I have in the WIP folder.)
+  4) Type what you want to write on the back of the card. Again, you can use ' -' to initialize a new line (Tip: to create a bullet, I use ' --'. See some of the test files I have in the WIP folder.)
   
   5) Hit <enter>. Now you have finished making your first card!
  
