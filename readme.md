@@ -6,9 +6,9 @@ To create a deck of flash cards:
 
   1) Create a text file
   
-  2) Type what you want to write on the front side of your first card without hitting <Tab> key or <Enter> key (Instead, you can use a ' -' as a replacement for a line change character by default. The specific keyword can be changed by modifying the config file under kwrd_newline)
+  2) Type what you want to write on the front side of your first card without hitting {Tab} key or {Enter} key (Instead, you can use a ' -' as a replacement for a line change character by default. The specific keyword can be changed by modifying the config file under kwrd_newline)
  
-  3) Press the <tab> key. Now you have finished the front side of your card!
+  3) Press the {tab} key. Now you have finished the front side of your card!
  
   4) Type what you want to write on the back of the card. Again, you can use '-' to initialize a new line (Tip: to create a bullet, I use ' --'. See some of the test files I have in the WIP folder.)
   
