@@ -440,7 +440,7 @@ class mainWindow(QMainWindow):
             dk = pickle.load(file)
             self.mp.loadDeck(dk)
         else:
-            file = open(f, 'r')
+            file = open(f, 'r',encoding = 'utf-8')
             lines = file.readlines()
             ##print(lines)
             all_cards = list()
@@ -517,7 +517,7 @@ opt = options() # initialize an option object
 opt.load()
 
 if ext == '.txt':
-    file = open(filename, 'r')
+    file = open(filename, 'r',encoding = 'utf-8')
     lines = file.readlines()
     all_cards = list()
     ID = 0
