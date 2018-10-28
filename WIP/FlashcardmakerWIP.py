@@ -417,6 +417,9 @@ class mainWindow(QMainWindow):
         mShuffleMode.addAction(mRdmFlip)
         
         optMenu.addMenu(mShuffleMode)
+
+        ## Manage Menu
+        manMenu = menubar.addMenu('&Manage')
         
         self.statusBar().showMessage('Ready')
         
@@ -463,6 +466,39 @@ class mainWindow(QMainWindow):
                 ID = ID +1
             dk = deck(f,all_cards)
             self.mp.loadDeck(dk)
+        self.mp.shuffle(initialize = 1)
+        file.close()
+
+    @pyqtSlot()
+    def expandDeck(self):
+        f,_ = QFileDialog.getOpenFileName(filter = 'Flash Card Files (*.txt *.dk)')
+        ftype = os.path.splitext(f)[1]
+        #print(ftype)
+        if ftype == '.dk':
+            file = open(f,'rb')
+            dk = pickle.load(file)
+            cards = dk.cards
+            self.mp.dk.append(cards)
+        else:
+            file = open(f, 'r',encoding = 'utf-8')
+            lines = file.readlines()
+            ##print(lines)
+            all_cards = list()
+            ID = 0
+            # generating deck
+            for l in lines:
+                if l.find('\t') > 0:
+                    a = l.find('\t') 
+                    b = a +1
+                front = l[0:a] 
+                front = front.replace('\\n',opt.var['kwrd_newline'])
+                
+                back = l[b:]
+                back = back.replace('\\n',opt.var['kwrd_newline'])
+                
+                all_cards.append(card(front,back,ID))
+                ID = ID +1
+        self.mp.dk.append(all_cards)
         self.mp.shuffle(initialize = 1)
         file.close()
              
