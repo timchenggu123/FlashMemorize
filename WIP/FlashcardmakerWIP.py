@@ -4,6 +4,7 @@ import sys
 import pickle
 import os.path
 import json
+import numpy
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow,QFrame, QFileDialog, QAction, QMenu, 
 QMessageBox)
@@ -31,15 +32,7 @@ class card:
         self.timesStudied = 0      # int. How many times the cards been studied
         self.timesCorrect = 0      # int. How many time sthe cards been right
         self.id = ID               # int/string. A unique id for each card
-        self.viewed = 0
-    
-    def setFrontBack(self,content):
-        #content: a line of text containing informtation to be displayed on both the front and back of the cards
-        
-
-        
-        self.front = front        
-        self.back = back           
+        self.viewed = 0    
         
     def flip(self, notRandom = 1):
         # flip(self, notRandom =0): flip to the opposite side if not Random = 0, or flip to a random side otherwise
@@ -74,6 +67,7 @@ class deck:
         self.size = len(cards)
         self.order = list(range(len(cards))) # A list containing the order by which the cards are sorted
         self.name = name
+        self.ver = opt.ver #store the current program version for compatibility purposes
         
     def shuffle(self,allCards = 1,rndFlip = 0):
     #Shuffle the deck
@@ -175,6 +169,13 @@ class deck:
     def resetViewed(self):
         for i in self.cards:
             i.viewed = 0
+    
+    def getSize(self,entireDeck = 1):
+        if entireDeck:
+            return self.size
+        else:
+            handsize = len(numpy.unique(self.order))
+            return handsize
             
 class mainProgram(QWidget):
     
@@ -346,7 +347,7 @@ class mainProgram(QWidget):
         deckStats = self.dk.deckStats()
         self.stats.setText('Current Card Accuracy: ' + str(round(cardStats*100)) + '% Overall accuracy: ' + 
                            str(round(deckStats[0]*100)) + '% Cards Studied:  ' 
-                           +  str(deckStats[1]) + ' Total Cards: ' + str(deckStats[2]) + '/' + str(self.dk.size))
+                           +  str(deckStats[1]) + ' Total Cards: ' + str(deckStats[2]) + '/' + str(self.dk.getSize(0)))
         self.correct = 1
         
     def saveDeck(self,filename):
@@ -356,7 +357,9 @@ class mainProgram(QWidget):
     
     def loadDeck(self,deck):
         # deck <obj> the deck object to be loaded
-        self.dk = deck
+        for v in vars(deck):
+            setattr(self.dk, v, getattr(deck,v))
+        #self.dk = deck
         self.i = 0
         self.updateStats(0)
         self.showCard()
@@ -472,6 +475,7 @@ class options:
             'rdmflip' : 1,  #enable random flip in shuffle mode
             }
         self.var = self.var_default
+        self.ver = '2.4.0'
     
     def load(self):
         
