@@ -1,16 +1,13 @@
-import tkinter as tk
 import random as rd
 import sys
 import pickle
 import os.path
 import json
-import numpy
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QHBoxLayout, QVBoxLayout, QMainWindow,QFrame, QFileDialog, QAction, QMenu, 
 QMessageBox)
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QIcon,QFont
-from tkinter.filedialog import askopenfilename
 
 # initalize global variables
 nm = 0 #holds the number of card
@@ -33,6 +30,7 @@ class card:
         self.timesCorrect = 0      # int. How many time sthe cards been right
         self.id = ID               # int/string. A unique id for each card
         self.viewed = 0    
+        self.studyTrend = []
         
     def flip(self, notRandom = 1):
         # flip(self, notRandom =0): flip to the opposite side if not Random = 0, or flip to a random side otherwise
@@ -55,17 +53,29 @@ class card:
             return self.timesCorrect/self.timesStudied
         else:
             return 1
-    
+    def getStudyTrend(self):
+        total = 0
+        trend = []
+        for i in range(len(self.studyTrend)):
+            total = total + self.studyTrend[i]
+            accuracy = total/(i+1)
+            trend.append(accuracy)
+        return trend
     
 class deck:
 # The deck class' main purpose is to hold and manage a list of card objects
-    def __init__(self,name,cards = [],):
+    def __init__(self,name = 'default',cards = [],):
     # name<string/int>: a unique name for the deck
     # cards<list>: a list containing card objects
-        self.cards = cards
+        if not cards:
+            self.cards = [card('Welcome to FlashCardmaker -To start, use load file from file menu -(*.txt *.dk)',
+                               'Welcome to FlashCardmaker -To start, use load file from file menu -(*.txt *.dk)',0)]
+            #print('123')
+        else:
+            self.cards = cards
         self.subDeck = list()
-        self.size = len(cards)
-        self.order = list(range(len(cards))) # A list containing the order by which the cards are sorted
+        self.size = len(self.cards)
+        self.order = list(range(len(self.cards))) # A list containing the order by which the cards are sorted
         self.name = name
         self.ver = opt.ver #store the current program version for compatibility purposes
         
@@ -102,15 +112,22 @@ class deck:
                 temp = a
                 pool.append(int(a*100))
             ##print(pool)
+            temp = -1
             for i in range(ncards):
-                draw = rd.randrange(0,pool[len(pool)-1])
-                ##print(draw)
-                nth = -1
-                for location in pool:
-                    nth = nth +1
-                    if draw < location:
-                        self.order.append(nth)
-                        break
+                proceed = 0
+                while proceed == 0:
+                    draw = rd.randrange(0,pool[len(pool)-1])
+                    ##print(draw)
+                    nth = -1
+                    for location in pool:
+                        nth = nth +1
+                        if draw < location:
+                            if temp == nth:
+                                break
+                            self.order.append(nth)
+                            temp = nth
+                            proceed = 1
+                            break
             ##print(pool)
             #print(self.order)
                 
@@ -174,7 +191,15 @@ class deck:
         if entireDeck:
             return self.size
         else:
-            handsize = len(numpy.unique(self.order))
+            order = self.order
+            order.sort()
+            temp = -1
+            handsize = 0
+            for i in order:
+                if i != temp:
+                    temp = i
+                    handsize = handsize +1
+                    
             return handsize
             
 class mainProgram(QWidget):
@@ -341,6 +366,7 @@ class mainProgram(QWidget):
         if updateCards:
                 self.dk.cards[currentId].timesStudied = self.dk.cards[currentId].timesStudied + 1
                 self.dk.cards[currentId].timesCorrect = self.dk.cards[currentId].timesCorrect + self.correct
+                self.dk.cards[currentId].studyTrend.append(self.correct)
                 self.dk.cards[currentId].viewed = 1
             
         cardStats = self.dk.cards[currentId].getStats()
@@ -359,6 +385,11 @@ class mainProgram(QWidget):
         # deck <obj> the deck object to be loaded
         for v in vars(deck):
             setattr(self.dk, v, getattr(deck,v))
+            for c in range(len(self.dk.cards)): #loop through all the cards in the deck
+                blankcard = card('','',0) #Initiates a new instance of card
+                for x in vars(self.dk.cards[c]): #loop through all attributes of the new instance and set them to be the same as the card in the deck to be loaded
+                    setattr(blankcard,x,getattr(self.dk.cards[c],x))
+                self.dk.cards[c] = blankcard #replace old instance with new instance
         #self.dk = deck
         self.i = 0
         self.updateStats(0)
@@ -382,12 +413,12 @@ class mainWindow(QMainWindow):
         ## filemenu
         fileMenu = menubar.addMenu('&File')
         
-        mSave = QAction(QIcon(), '&Save',self)
+        mSave = QAction(QIcon(), '&Save File',self)
         mSave.setShortcut('Ctrl+S')
         mSave.setStatusTip('Save current deck')
         mSave.triggered.connect(self.saveToFile)
         
-        mLoad = QAction(QIcon(),'&Load',self)
+        mLoad = QAction(QIcon(),'&Load File',self)
         mLoad.setShortcut('Ctrl+O')
         mLoad.setStatusTip('Open a saved deck')
         mLoad.triggered.connect(self.loadFile)
@@ -420,6 +451,9 @@ class mainWindow(QMainWindow):
 
         ## Manage Menu
         manMenu = menubar.addMenu('&Manage')
+        mResetViewed = QAction('Reset Viewed Cards', self)
+        mResetViewed.triggered.connect(self.mp.dk.resetViewed)
+        manMenu.addAction(mResetViewed)
         
         self.statusBar().showMessage('Ready')
         
@@ -547,39 +581,38 @@ class options:
 
 #Prompt user to select source file & extract lines from source file
 
- ## still using the native tk file dialog from version 1. Should be changed in near future
-tk.Tk().withdraw()  
-filename = askopenfilename()
-ext = os.path.splitext(filename)[1]
-
-global opt
+# ## still using the native tk file dialog from version 1. Should be changed in near future
+#filename,_ = QFileDialog.getOpenFileName(filter = 'Flash Card Files (*.txt *.dk)')
+#ext = os.path.splitext(filename)[1]
+#
+#global opt
 opt = options() # initialize an option object
 opt.load()
-
-if ext == '.txt':
-    file = open(filename, 'r',encoding = 'utf-8')
-    lines = file.readlines()
-    all_cards = list()
-    ID = 0
-    # generating deck
-    for l in lines:
-        if l.find('\t') > 0:
-            a = l.find('\t') 
-            b = a +1
-        front = l[0:a] 
-        front = front.replace('\\n',opt.var['kwrd_newline'])
-        
-        back = l[b:]
-        back = back.replace('\\n',opt.var['kwrd_newline'])
-        
-        all_cards.append(card(front,back,ID))
-        ID = ID +1
-        dk = deck(filename,all_cards)
-elif ext == '.dk':
-    file = open(filename,'rb')
-    dk = pickle.load(file)
-    
-file.close()
+dk = deck()
+#if ext == '.txt':
+#    file = open(filename, 'r',encoding = 'utf-8')
+#    lines = file.readlines()
+#    all_cards = list()
+#    ID = 0
+#    # generating deck
+#    for l in lines:
+#        if l.find('\t') > 0:
+#            a = l.find('\t') 
+#            b = a +1
+#        front = l[0:a] 
+#        front = front.replace('\\n',opt.var['kwrd_newline'])
+#        
+#        back = l[b:]
+#        back = back.replace('\\n',opt.var['kwrd_newline'])
+#        
+#        all_cards.append(card(front,back,ID))
+#        ID = ID +1
+#        dk = deck(filename,all_cards)
+#elif ext == '.dk':
+#    file = open(filename,'rb')
+#    dk = pickle.load(file)
+#    
+#file.close()
 # Hight resolution support....not sure how this work...
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
     QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
@@ -589,7 +622,7 @@ if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
 # end of high resolution suppport
 #Entering Mainloop
 if __name__ == '__main__':
-    
+
     app = QApplication(sys.argv)
     ex = mainWindow(dk)
 sys.exit(app.exec_())
