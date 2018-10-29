@@ -395,6 +395,10 @@ class mainProgram(QWidget):
         self.updateStats(0)
         self.showCard()
         
+    def resetViewed(self,deck):
+        self.dk.resetViewed()
+        self.updateStats(0)
+        
 # test
 class mainWindow(QMainWindow):
     
@@ -452,13 +456,13 @@ class mainWindow(QMainWindow):
         ## Manage Menu
         manMenu = menubar.addMenu('&Manage')
         mResetViewed = QAction('Reset Viewed Cards', self)
-        mResetViewed.triggered.connect(self.mp.dk.resetViewed)
+        mResetViewed.triggered.connect(self.mp.resetViewed)
         manMenu.addAction(mResetViewed)
         
         self.statusBar().showMessage('Ready')
         
         self.setGeometry(300, 300, 300, 400)
-        self.setWindowTitle('FlashCardMaker2.3')
+        self.setWindowTitle('FlashCardMaker')
         self.show()
         
     def showStats(self):
@@ -545,7 +549,7 @@ class options:
             'rdmflip' : 1,  #enable random flip in shuffle mode
             }
         self.var = self.var_default
-        self.ver = '2.4.0'
+        self.ver = '2.5.0'
     
     def load(self):
         
