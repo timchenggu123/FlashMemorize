@@ -234,7 +234,7 @@ class mainProgram(QWidget):
         self.stats.setGeometry(1,1,600,20)
         
         self.canvas = QLabel('',self)
-        self.canvas.setGeometry(30,30,500,250)
+        self.canvas.setGeometry(30,30,700,350)
         self.canvas.setFrameStyle(QFrame.Panel)
         self.canvas.setWordWrap(True)
         font = QFont('Arial',12)
@@ -292,14 +292,16 @@ class mainProgram(QWidget):
     #Display the text on canvas
         text = self.readCard(self.i)
         text = text.replace(opt.var['kwrd_newline'],'<br>')
-        if text.find('{') > -1:
-            print('image found')
-            a = text.find('{')
-            b = text.find('}')
+        
+        if text.find(opt.var['kwrd_image'][0]) > -1: 
+            
+            a = text.find(opt.var['kwrd_image'][0])
+            b = text.find(opt.var['kwrd_image'][1])
             file = text[a+1:b]
+            file = os.path.dirname(self.dk.name) + '/'+ file # (probably needs more work) We are calling the file location of the deck which is stored as the deck name
             #file,_ = QFileDialog.getOpenFileName()
             pic = QPixmap(file)
-            self.canvas.setPixmap(pic.scaled(450,250))
+            self.canvas.setPixmap(pic.scaled(self.canvas.width() -20,self.canvas.height() -20,QtCore.Qt.KeepAspectRatio))
         else:
             self.canvas.setText(text) 
 
@@ -504,7 +506,7 @@ class mainWindow(QMainWindow):
         
         self.statusBar().showMessage('Ready')
         
-        self.setGeometry(300, 300, 300, 400)
+        self.setGeometry(300, 300, 750,500)
         self.setWindowTitle('FlashCardMaker')
         self.show()
         
@@ -592,11 +594,12 @@ class options:
             'kwrd_newline' : ' -', #keyword initating a newline on a card
             'shufflemode' : 0, #shuffle mode
             'rdmflip' : 1,  #enable random flip in shuffle mode
+            'kwrd_image': '{}' #The characters that shall contains the file address for images to be displayed on cards. Need to be at least two characters long. See showCard() method under mainProgram() class for details
             }
         self.var = self.var_default
         self.ver = '2.5.0'
     
-    def load(self):
+    def load(self): # slot for the file menu
         
         try:
             f = open('options.json','r')
@@ -608,21 +611,21 @@ class options:
             self.save()
             self.load()
         
-    def save(self):
+    def save(self): #slot for the file muenu
         f = open('options.json','w')
         json.dump(self.var,f)
         f.close
         
-    def restore(self):
+    def restore(self): #slot for the optio menu
         self.var = self.var_default
     
-    def setShuffleMode(self,state):
+    def setShuffleMode(self,state): #slot for the option menu
         if state:
             self.var['shufflemode'] = 0
         else:
             self.var['shufflemode'] = 1
     
-    def setRdmFlip(self,state):
+    def setRdmFlip(self,state): #slot for the option menu
         if state:
             self.var['rdmflip'] = 1
         else:
