@@ -81,56 +81,82 @@ class deck:
         self.name = name
         self.ver = opt.ver #store the current program version for compatibility purposes
         
-    def shuffle(self,allCards = 1,rndFlip = 0,reset = 0):
-    #Shuffle the deck
+    def shuffle(self,mode = 1,rndFlip = 0,reset = 0, draw = 0):
+    #Shuffle the deck. AllCards = 1 shuffle a deck of ncards with every card included exactly once. All cards
+    #having any other value will result in the deck shuffling cards based on the accuracy of each card. Draw = 1 
+    #returns one random card based on the card accuracy, but only work if allCards is set to 0
+    
     #allCards<int/logical> [0,1]: 1 then the deck is shuffled such that all cards are included at least once
     #rndFlip<int> [0,1,2]: 0: all cards facing front; 1: all cards randomly flipped; 2: all cards facing back
         self.order = list(range(len(self.cards)))
         if reset == 0:
-            if allCards:
+            if mode == 1:
                 rd.shuffle(self.order)
             else:
+                #The random shuffling algorithm utilizes a wighted random algorithm. An anology is that we create
+                # a 'pool' that is divided into zones of different sizes. Each zone represent a card in the deck. The
+                #size of each zone is inversely proportional to the accuracy of the card. We then randomly 'toss a coin'
+                #into the pool and see where it lands. The coin is more likely to land in a zone with a larger area, and 
+                #thus we have created a weighted random algorithm. It is worth noticing that the size of each zone
+                #is adjusted by an arbitary factor related to the times which the card has been studied. 
+                
                 ncards = len(self.order)
-                self.order = list()
+                self.order2 = list() #creating an empty vector to hold the new deck order temporarily
                 accuracy = list()
                 pool = list()
-                i = 0 
+                
                 for card in range(ncards):
                     accuracy.append(self.cards[card].getStats())
                 temp = 0
                 ##print(accuracy)
                 card = -1
-                for a in accuracy:
+                for a in accuracy: #This for loop adjusts accuracy by an arbitrary factor then creates a pool based on the accuracy
                     if a == 0:
-                        a = 0.01
+                        a = 0.01 #We don't want an infinitely large weight on cards with a 0 accuracy. Therefore, we hard set it to 0.01
                     a = 1/a
                     card = card + 1
                     coeff = self.cards[card].timesStudied  # An arbitrary coefficent for probability of a e.g. probability of a is coeff * (1/a)/ncards. In this case, the coeff is based on the total times the card is studied
                     if coeff == 0 :
-                        coeff = 0.1
+                        coeff = 0.1 #Same logic there, if the card has not been studied at all, we set it 0,1
                     else:
                         coeff = coeff * 0.1
-                    a = a * coeff 
+                    a = a * coeff #adjusting the size of the zone by the coefficient which is based on the times the card has been studied
                     a = a + temp
                     temp = a
-                    pool.append(int(a*100))
+                    pool.append(int(a*100)) #the 100 just allows us to have a more precise intepretation of the accuracy. 
                 ##print(pool)
                 temp = -1
                 for i in range(ncards):
-                    proceed = 0
+                    proceed = 0 #The proceed controls where the randomly selected card satisfy our requirements, which in this case is whether it is the exact same card
+                                #as the previous card drew. 
                     while proceed == 0:
-                        draw = rd.randrange(0,pool[len(pool)-1])
-                        ##print(draw)
+                        toss = rd.randrange(0,pool[len(pool)-1]) #the toss is a random number between zero and the last and largest number in the pool
+                        ##print(toss)
                         nth = -1
-                        for location in pool:
+                        for zone in pool:
                             nth = nth +1
-                            if draw < location:
+                            if toss < zone: #sine the pool is monotonic and increasing, we can locate our toss this way
                                 if temp == nth:
                                     break
-                                self.order.append(nth)
+                                self.order2.append(nth)
                                 temp = nth
                                 proceed = 1
                                 break
+                    if mode == 2 :
+                        self.order = list()
+                        self.order.append(nth)
+                        try:
+                            if self.global_temp == nth:
+                                self.shuffle(mode,rdnFlip,reset,draw)
+                            else:
+                                self.global_temp = nth
+                        except:
+                            self.global_temp = nth
+                        break
+                    
+                    self.order = self.order2
+                
+                
             if rndFlip == 0:
                 for i in self.cards:
                     i.side = 1
@@ -143,6 +169,8 @@ class deck:
         else:
             for i in self.cards:
                     i.side = 1
+                    
+        
     def append(self,cards):
         # Add a new card to the bottom of the deck and restore order. Call this method instead of directly modifying self.cards.
         # card: a list of card objects to be appended
@@ -311,23 +339,29 @@ class mainProgram(QWidget):
     def moveCard(self,step,updateStats = 1):
         if updateStats:
             self.updateStats()
-#        else:
 #            currentId = self.cards[self.i].id
 #            self.dk.cards[currentId].viewed = 1
-        
-        ncards = self.dk.size
-        self.i = self.i + step
-        if self.i == ncards:
+        if opt.var['shufflemode'] == 2:
             self.i = 0
-        elif self.i < 0:
-            self.i = self.dk.size - 1
-        self.updateStats(0)
+            self.dk.shuffle(opt.var['shufflemode'],opt.var['rdmflip'])
+            self.cards = self.dk.getdeck()
+        else:
+            ncards = self.dk.size
+            self.i = self.i + step
+            if self.i == ncards:
+                self.i = 0
+            elif self.i < 0:
+                self.i = self.dk.size - 1
+            
+            
+        self.updateStats(0) #the 0 here refreshes the stats bar without changing card stats
         
     
     @pyqtSlot()
     def Good(self):
     # pyqt slot. show next card in deck on the canvas
     
+
         self.moveCard(1)
         self.showCard()
         
@@ -337,6 +371,7 @@ class mainProgram(QWidget):
     # pyqt slot. show previous card on canvas
     # fuck you xinghao
     # fuck you rares
+
         self.moveCard(-1,0)
         self.showCard()
     
@@ -378,6 +413,7 @@ class mainProgram(QWidget):
     
     @pyqtSlot()
     def Next(self):
+        
         self.moveCard(1,0)
         self.showCard()
                 
