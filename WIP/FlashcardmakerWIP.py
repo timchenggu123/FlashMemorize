@@ -513,18 +513,20 @@ class mainWindow(QMainWindow):
         
         mShuffleMode = QMenu('&Shuffle Mode', self)
         mAllowRepeat = QAction('Allow Repeats',self,checkable = True)
-        mAllowRepeat.setChecked(True)
+        mAllowRepeat.setChecked(False)
+        mAllowRepeat.triggered.connect(lambda: mActiveShuffle.setChecked(False))
         mAllowRepeat.triggered.connect(opt.setShuffleMode)
         mActiveShuffle = QAction('Active Shuffle',self,checkable = True)
-        mActiveShuffle.setChecked(True)
+        mActiveShuffle.setChecked(False)
+        mActiveShuffle.triggered.connect(lambda: mAllowRepeat.setChecked(False))
         mActiveShuffle.triggered.connect(opt.setShuffleMode2)
 
         mRdmFlip = QAction('Allow Random Flips',self,checkable = True)
-        mRdmFlip.setChecked(True)
+        mRdmFlip.setChecked(False)
         mRdmFlip.triggered.connect(opt.setRdmFlip)
         mShuffleMode.addAction(mAllowRepeat)
-        mShuffleMode.addAction(mRdmFlip)
         mShuffleMode.addAction(mActiveShuffle)
+        mShuffleMode.addAction(mRdmFlip)
         
         mResetDeckOrder = QAction('&Reset Deck Order', self)
         mResetDeckOrder.triggered.connect(self.mp.resetOrder)
@@ -662,17 +664,19 @@ class options:
         self.var = self.var_default
     
     def setShuffleMode(self,state): #slot for the option menu
+        #Set not random shuffle
         if state:
             self.var['shufflemode'] = 0
         else:
             self.var['shufflemode'] = 1
             
     def setShuffleMode2(self,state):
+        #Set ActiveShuffle
         if state:
             self.var['shufflemode'] = 2
         else:
-            self.var['shufflemode'] = 0
-    
+            self.var['shufflemode'] = 1
+            
     def setRdmFlip(self,state): #slot for the option menu
         if state:
             self.var['rdmflip'] = 1
