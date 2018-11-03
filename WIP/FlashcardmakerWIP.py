@@ -135,7 +135,7 @@ class deck:
                         nth = -1
                         for zone in pool:
                             nth = nth +1
-                            if toss < zone: #sine the pool is monotonic and increasing, we can locate our toss this way
+                            if toss < zone: #since the pool is monotonic and increasing, we can locate our toss this way
                                 if temp == nth:
                                     break
                                 self.order2.append(nth)
@@ -147,7 +147,7 @@ class deck:
                         self.order.append(nth)
                         try:
                             if self.global_temp == nth:
-                                self.shuffle(mode,rdnFlip,reset,draw)
+                                self.shuffle(mode,rndFlip,reset,draw)
                             else:
                                 self.global_temp = nth
                         except:
@@ -636,8 +636,8 @@ class options:
         self.var_default = {
             'kwrd_side': '\t', #keyword separating the front and back side of a card
             'kwrd_newline' : ' -', #keyword initating a newline on a card
-            'shufflemode' : 0, #shuffle mode
-            'rdmflip' : 1,  #enable random flip in shuffle mode
+            'shufflemode' : 1, #shuffle mode
+            'rdmflip' : 0,  #enable random flip in shuffle mode
             'kwrd_image': '{}' #The characters that shall contains the file address for images to be displayed on cards. Need to be at least two characters long. See showCard() method under mainProgram() class for details
             }
         self.var = self.var_default
