@@ -515,11 +515,16 @@ class mainWindow(QMainWindow):
         mAllowRepeat = QAction('Allow Repeats',self,checkable = True)
         mAllowRepeat.setChecked(True)
         mAllowRepeat.triggered.connect(opt.setShuffleMode)
+        mActiveShuffle = QAction('Active Shuffle',self,checkable = True)
+        mActiveShuffle.setChecked(True)
+        mActiveShuffle.triggered.connect(opt.setShuffleMode2)
+
         mRdmFlip = QAction('Allow Random Flips',self,checkable = True)
         mRdmFlip.setChecked(True)
         mRdmFlip.triggered.connect(opt.setRdmFlip)
         mShuffleMode.addAction(mAllowRepeat)
         mShuffleMode.addAction(mRdmFlip)
+        mShuffleMode.addAction(mActiveShuffle)
         
         mResetDeckOrder = QAction('&Reset Deck Order', self)
         mResetDeckOrder.triggered.connect(self.mp.resetOrder)
@@ -621,6 +626,7 @@ class mainWindow(QMainWindow):
             self.mp.dk.append(all_cards)
         self.mp.shuffle(initialize = 1)
         file.close()
+    
 
              
 class options:
@@ -660,6 +666,12 @@ class options:
             self.var['shufflemode'] = 0
         else:
             self.var['shufflemode'] = 1
+            
+    def setShuffleMode2(self,state):
+        if state:
+            self.var['shufflemode'] = 2
+        else:
+            self.var['shufflemode'] = 0
     
     def setRdmFlip(self,state): #slot for the option menu
         if state:
@@ -667,6 +679,7 @@ class options:
         else:
             self.var['rdmflip'] =0
             
+    
        
 #global opt
 opt = options() # initialize an option object
