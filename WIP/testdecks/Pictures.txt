@@ -1,0 +1,3 @@
+{goose.jpg}	goose
+{pepe.jpg}	pepe
+{Feridun.jpg}	Feridun
