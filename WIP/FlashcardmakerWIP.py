@@ -110,20 +110,22 @@ class card:
         self.pic_exist = self.front_pic_exist + self.back_pic_exist
         
     def showPic(self):
-        if self.side == 1 and self.front_pic_exist:
-            #for pickling purposes the data is stored as a QDataStream object. We are 
-            #converting it back to QPixmap
-            pic = QPixmap()
-            stream = QDataStream(self.front_pic,QIODevice.ReadOnly)
-            stream >> pic
-            return  pic
-        elif self.back_pic_exist:
-            #for pickling purposes the data is stored as a QDataStream object. We are 
-            #converting it back to QPixmap
-            pic = QPixmap()
-            stream = QDataStream(self.back_pic,QIODevice.ReadOnly)
-            stream >> pic
-            return self.back_pic
+        if self.side == 1:
+            if self.front_pic_exist:
+                #for pickling purposes the data is stored as a QDataStream object. We are 
+                #converting it back to QPixmap
+                pic = QPixmap()
+                stream = QDataStream(self.front_pic,QIODevice.ReadOnly)
+                stream >> pic
+                return  pic
+        elif self.side == 0:
+            if self.back_pic_exist:
+                #for pickling purposes the data is stored as a QDataStream object. We are 
+                #converting it back to QPixmap
+                pic = QPixmap()
+                stream = QDataStream(self.back_pic,QIODevice.ReadOnly)
+                stream >> pic
+                return pic
     
 class deck:
 # The deck class' main purpose is to hold and manage a list of card objects
