@@ -73,10 +73,10 @@ class card:
     def editCard(self,text):
         if self.side == 1:
             self.front = text
-            self.addpic(text,'') #empyt string here because we are not editing the back right now
+            self.addPic(text,'') #empyt string here because we are not editing the back right now
         else:
             self.back = text 
-            self.addpic('',text) #empyt string here because we are not editing the front right now
+            self.addPic('',text) #empyt string here because we are not editing the front right now
         
         
     def addPic(self,front,back):
