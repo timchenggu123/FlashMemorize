@@ -328,6 +328,7 @@ class deck:
             card.id = ID
             ID = ID + 1
             
+        self.size = len(self.order)
         
         
         
@@ -534,6 +535,9 @@ class mainProgram(QWidget):
     def updateStats(self, updateCards = 1):
     #update the times correct stats of a card
     # correct <int> [0,1]. 0 represent the answer is wrong, 1 represent the answer is correct
+        if self.i == self.dk.size: #to guard against index going out of range
+            self.i = self.i -1
+            
         currentId= self.cards[self.i].id    
         if updateCards:
                 self.dk.cards[currentId].timesStudied = self.dk.cards[currentId].timesStudied + 1
