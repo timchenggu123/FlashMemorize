@@ -333,7 +333,7 @@ class deck:
         
         
 class mainProgram(QWidget):
-    
+    # this is the main widget to be displayed in the main window
     def __init__(self,deck):
     # deck: a deck object to be displayed by the program
         super().__init__()
@@ -407,7 +407,11 @@ class mainProgram(QWidget):
 #        self.setWindowTitle('SmartFlashCard')
 #        
 #        self.show()
-    
+        
+        
+    def resizeEvent(self,event):
+        self.canvas.resize(self.width()-50, self.height()-80)
+        self.edit.resize(self.width()-50,self.height()-80)
     def readCard(self,i):
     #Return the text on the current side of card[i]
     # i <int> the ith card in the deck
@@ -681,6 +685,9 @@ class mainWindow(QMainWindow):
         self.setWindowTitle('FlashCardMaker')
         self.show()
         
+        
+    def resizeEvent(self,event):
+        self.mp.resize(self.width(),self.height())
         
     def showStats(self):
         stats = self.mp.dk.deckStats()
