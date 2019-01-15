@@ -586,11 +586,15 @@ class mainProgram(QWidget):
 # test
 class mainWindow(QMainWindow):
     
-    def __init__(self,deck):
+    def __init__(self,deck,sys_argv):
         super().__init__()
         
         self.deck = deck
         self.initUI()
+        if len(sys_argv) > 1:
+            filename = sys.argv[1]
+            self.loadFile(filename)
+            
         
     def initUI(self):
         
@@ -707,8 +711,11 @@ class mainWindow(QMainWindow):
         self.mp.saveDeck(f)
         
     @pyqtSlot()
-    def loadFile(self):
-        f,_ = QFileDialog.getOpenFileName(filter = 'Flash Card Files (*.txt *.dk)')
+    def loadFile(self,filename = ''):
+        if filename:
+            f = filename
+        else:
+            f,_ = QFileDialog.getOpenFileName(filter = 'Flash Card Files (*.txt *.dk)')
         
         pwd = os.curdir
         os.chdir(os.path.dirname(f))
@@ -743,7 +750,7 @@ class mainWindow(QMainWindow):
         self.mp.shuffle(initialize = 1)
         file.close()
         os.chdir(pwd)
-
+        return 
     @pyqtSlot()
     def expandDeck(self):
         f,_ = QFileDialog.getOpenFileName(filter = 'Flash Card Files (*.txt *.dk)')
@@ -867,5 +874,7 @@ if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ex = mainWindow(dk)
-sys.exit(app.exec_())
+
+    ex = mainWindow(dk,sys.argv)
+    
+    sys.exit(app.exec_())

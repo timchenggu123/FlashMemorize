@@ -1,0 +1,33 @@
+What did Dimitri Ivanovski contribute to virology?	infectious tobacco mosaic virus isolated in filtered, bacteria-free fluid
+What did Felix D'Herelle contribute to virology?	discovered bacteriophages (coined term plaque
+What did Walter Reed contribute to virology?	Showed that yellow fever was a virus transmitted by mosquitoes
+What is the size range for viruses?	10 and 100 nm
+How long is typical virus genomes?	few thousand to 200,000 nucleotides long
+What are the two most typical shapes of viral capsids?	helical or icosahedral
+What are four components of a typical bateriophage?	-Genome --Capsid --Tail --Tail fibres
+List 4 steps of typical viral replication process	-adhere >> uncoat >> synthesis >> assembly >> exit
+What are the typical processes that virus empoly to enter animal cells? [3]	-endocytosis of non enveloped: attach to cell surface >> intiate endocytosis >> endosome surrounds virus inside >> the nucleocapsi ecapes to cytoplams and uncoats... --membrane fustion: virus attach to cell receptor >> receptor changes >> membrane fuse >>release.. --Membrance endocytosis: all the same until step 4 ,where the low pH of endosome initate membrane fusion
+What plays an imporant role in plant virus infection? Why?	-External damage to the cell wall --it is a lot harder to penetrate cell walls for viruses
+How does virus enter bacterial cells?	-Tail fibres attach to cell receptors --shaft comes down, inject the core through the cell membrane -the core releases genome
+Temperate phage versus lytic phage?	temperate phage can be both lytic or exit. lytic phate are lytic...
+lytic phage?	phage enter, replicate, and lyse host cell
+temerate phage?	phage integrate their genome into host cell's genome and become a prophage. Replicate with the host cell until stress. Can enter lytic phase.
+3 virus origin theory:	-coevolution hypothesis: viruses evolved with microbes --Regressiv e hypothesis: viruses used to be living organisms --progressive hypothesis: viruses originated from genetic material
+Cultivating bacteriophage:	Mix phage and host bacteria and grow them on a petri dish. There will be spots of plaques on the "lawn" of bacteria
+Cultivating Animal Viruses?	needs tissue culture of host cells and advance equipment
+Viral Purification?	-filtration >> centrifugation mass spectrometry.
+gradient centrifugation	-bacteria are separated based to their mass in a gradiented sucrose solution.
+titer	concentration of a virus preparation
+4 viral quantification methods?	-direct count --hemagglutination assay --plaque assay --endpoint assay
+Direct count	-direcly count viruses using electron microscopes --expensive and doessn't differentiate between infectious and non-infectious viral particles
+Hemagglutination	-exploits trait of some viruses to stick to red blood cells, causing them to form a gel mat --cheap, easy, fast but doesn't give much info --counting button wells (+) and shield wells (-)
+plaque assay	-virus diluted and placed in target cells --count forming plaques
+Endpoint assay	-tissue culture infectious dose (TCID50) --lethan dose (LD50)
+What are the two virus classification schemes?	-ICTV classification scheme --The baltimore classification system
+ICTV Classificaiton Shceme 	-International committee on Taxonomy of Viruses --classify viruses based on Order, Family, Subfamily, Genus, and Species
+The Baltimore Classification System	-based around mRNA production methods	-separates viruses into seven classes --developed by Nobel laureate David Baltimore
+Viroids	-not a virus --consists only of naked RNA --extremely small --only infect plants
+Prions	-not a virus, but rather a protein particle --mad cow disease
+CRISPR	-clustered regularly interspaced short palindromic repeats -a defense mechanism against virus --basically holds a record of virus attacks and destroys viruses upon detection
+
+
