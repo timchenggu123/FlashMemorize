@@ -1,5 +1,5 @@
 # Flash Memorize
-A flashcard application that helps you create a deck and learn deck in a flash.
+A flashcard application that helps you create learn a deck in a flash.
 
 **FlashMemorize** is a Qt Application written in Python
 
