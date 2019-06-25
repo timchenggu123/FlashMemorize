@@ -1,6 +1,8 @@
 # Flash Memorize
 A flashcard application that helps you create and learn a deck in a flash.
 
+**Check out the android version [here](http://github.com/timchenggu123/FlashmemorizeDroid)**
+
 **FlashMemorize** is a Qt Application written in Python
 
 **FlashMemorize** allows you to create a deck from a simple txt file and offers smart shuffling algorithmns to help you learn the deck easily.
